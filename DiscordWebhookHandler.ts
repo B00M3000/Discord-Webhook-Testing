@@ -49,12 +49,18 @@ export class DiscordWebhookHandler {
     }
     
     fetch(this.url, data)
+    
+    return 200
   }
   
-  sendMessage(message: DiscordWebhookBody): number {
+  sendMessage(message: string): number {
   
     let header: DiscordWebhookRequestHeader = {
       "Content-Type": "application/json"
+    }
+    
+    let body: DiscordWebhookBody = {
+      content: message
     }
     
     let data: DiscordWebhookRequest = { 
@@ -64,12 +70,18 @@ export class DiscordWebhookHandler {
     }
     
     fetch(this.url, data)
+    
+    return 200
   }
   
-  send(body: DiscordWebhookBody): number {
+  sendEmbed(embed: DiscordWebhookEmbed): number {
   
     let header: DiscordWebhookRequestHeader = {
       "Content-Type": "application/json"
+    }
+    
+    let body: DiscordWebhookEmbed = {
+      embeds: [ embed ]
     }
     
     let data: DiscordWebhookRequest = { 
@@ -79,5 +91,7 @@ export class DiscordWebhookHandler {
     }
     
     fetch(this.url, data)
+    
+    return 200
   }
 }
