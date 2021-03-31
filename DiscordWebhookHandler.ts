@@ -1,7 +1,7 @@
-import fetch from 'node-fetch'
+import fetch from 'node-fetch';
 
 interface DiscordWebhookEmbedImage {
-  url: string
+  url: string;
 }
 
 interface DiscordWebhookEmbed {
@@ -25,11 +25,11 @@ interface DiscordWebhookRequestHeader {
 
 interface DiscordWebhookRequest {
   method: string;
-  header: PostRequestHeader;
+  header: DiscordWebhookRequestHeader;
   body: string;
 }
 
-export class DiscordWebhookHandler {
+export default class DiscordWebhookHandler {
   constructor(url: string){
     this.url = url
   }
@@ -45,7 +45,7 @@ export class DiscordWebhookHandler {
     let data: DiscordWebhookRequest = { 
       method: "POST", 
       header,
-      body: string = JSON.stringify(body),
+      body: JSON.stringify(body),
     }
     
     fetch(this.url, data)
@@ -63,15 +63,7 @@ export class DiscordWebhookHandler {
       content: message
     }
     
-    let data: DiscordWebhookRequest = { 
-      method: "POST", 
-      header,
-      body: string = JSON.stringify(body),
-    }
-    
-    fetch(this.url, data)
-    
-    return 200
+    return this.send(body)
   }
   
   sendEmbed(embed: DiscordWebhookEmbed): number {
@@ -80,18 +72,10 @@ export class DiscordWebhookHandler {
       "Content-Type": "application/json"
     }
     
-    let body: DiscordWebhookEmbed = {
+    let body: DiscordWebhookBody = {
       embeds: [ embed ]
     }
     
-    let data: DiscordWebhookRequest = { 
-      method: "POST", 
-      header,
-      body: string = JSON.stringify(body),
-    }
-    
-    fetch(this.url, data)
-    
-    return 200
+    return this.send(body)
   }
 }

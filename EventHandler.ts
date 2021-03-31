@@ -1,4 +1,4 @@
-import DiscordWebhookHandler from "./DiscordWebhookHandler.ts"
+import DiscordWebhookHandler from "./DiscordWebhookHandler"
 
 interface Event {
   triggeredAt: string
@@ -7,6 +7,7 @@ interface Event {
 interface SchematicEvent extends Event{
   schematicId: string;
   schematicName: string;
+  schematicDescription: string;
 }
 
 interface CreateSchematicEvent extends SchematicEvent{
@@ -21,10 +22,11 @@ interface EditSchematicEvent extends SchematicEvent{
   changes: string;
 }
 
-class EventHandler {
-  constructor(webhookHandler: DiscordWebhookHandler; websiteURL: string){
+export default class EventHandler {
+  constructor(webhookHandler: DiscordWebhookHandler, websiteURL: string){
     this.webhookHandler = webhookHandler
     this.websiteURL = websiteURL
+    this.events = []
   }
   
   webhookHandler: DiscordWebhookHandler
@@ -32,7 +34,7 @@ class EventHandler {
   readonly events: Event[]
   
   createSchematic(event: CreateSchematicEvent){
-    webhookHandler.sendEmbed({
+    this.webhookHandler.sendEmbed({
       color: "green",
       title: `New Schematic: ${event.schematicName}`,
       url: `${this.websiteURL}/schematics/${event.schematicId}`
@@ -40,7 +42,7 @@ class EventHandler {
   }
   
   editSchematic(event: EditSchematicEvent){
-    webhookHandler.sendEmbed({
+    this.webhookHandler.sendEmbed({
       color: "yellow",
       title: `Changed: ${event.schematicName}`,
       description: event.changes,
@@ -49,7 +51,7 @@ class EventHandler {
   }
   
   deleteSchematic(event: DeleteSchematicEvent){
-    webhookHandler.sendEmbed({
+    this.webhookHandler.sendEmbed({
       color: "red",
       title: `Deleted: ${event.schematicName}`,
       description: event.reason,
