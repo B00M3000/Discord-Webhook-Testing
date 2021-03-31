@@ -1,0 +1,22 @@
+{
+  "name": "Discord-Webhook-Testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && node .",
+    "dev": "concurrently --kill-others \"tsc --watch\" \"node .\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "tslib": "^2.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^6.0.0",
+    "typescript": "^4.2.3"
+  }
+}
